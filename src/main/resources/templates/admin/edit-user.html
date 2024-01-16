@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактирование</title>
+</head>
+<body>
+<h2>Редактирование</h2>
+
+<form th:method="patch" th:action="@{/admin/edit_user(id=${user.getId()})}" th:object="${user}">
+  <input type="hidden" th:field="*{id}"/>
+  <p>
+    <label for="name">Введите имя: </label>
+    <input type="text" th:field="${user.firstName}" id="name"/>
+  </p>
+  <p>
+    <label for="last_name">Введите фамилию: </label>
+    <input type="text" th:field="${user.lastName}" id="last_name"/>
+  </p>
+  <p>
+    <label for="username">Введите username: </label>
+    <input type="text" th:field="${user.username}" id="username"/>
+  </p>
+  <p>
+    <label for="password">Введите password: </label>
+    <input type="text" th:field="${user.password}" id="password"/>
+  </p>
+  <tr>
+    <th><label>Select the role: </label></th>
+    <th>
+      <label>
+        <input type="checkbox" name="allRoles"
+               th:each="role: ${roles}"
+               th:text="${role.getRole()}"
+               th:value="${role.id}"
+               th:field="*{roles}">
+      </label>
+    </th>
+  </tr>
+  <br>
+  <input type="submit" value="Сохранить изменения"/>
+</form>
+<a th:href="@{/admin}">Показать список</a>
+<br>
+<a th:href="@{/logout}">Выйти</a>
+<br>
+</body>
+</html>

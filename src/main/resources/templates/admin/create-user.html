@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page for add a user.</title>
+</head>
+<body>
+<h2>User info</h2>
+<form th:method="post" th:action="@{/admin}" th:object="${user}">
+    <input type="hidden" th:field="*{id}"/>
+    <p>
+        <label for="name">Input Name: </label>
+        <input type="text" th:field="${user.name}" id="name"/>
+    </p>
+    <p>
+        <label for="surname">Input surname: </label>
+        <input type="text" th:field="${user.surname}" id="surname"/>
+    </p>
+    <p>
+        <label for="username">Input username: </label>
+        <input type="text" th:field="${user.username}" id="username"/>
+    </p>
+    <p>
+        <label for="password">Input password: </label>
+        <input type="text" th:field="${user.password}" id="password"/>
+    </p>
+    <tr>
+        <th><label>Select the role: </label></th>
+        <th>
+            <label>
+                <input type="checkbox" name="allRoles"
+                       th:each="role: ${roles}"
+                       th:text="${role.getRole()}"
+                       th:value="${role.id}"
+                       th:field="*{roles}">
+            </label>
+        </th>
+    </tr>
+    <br>
+    <input type="submit" value="Создать"/>
+</form>
+<a href="/admin">Show list</a>
+</body>
+</html>

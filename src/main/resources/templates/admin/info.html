@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Пользователь</title>
+</head>
+<body>
+<table>
+  <tr>
+    <th>Id</th>
+    <td th:text="${user.id}"/>
+  </tr>
+  <tr>
+    <th>Имя</th>
+    <td th:text="${user.firstName}"/>
+  </tr>
+  <tr>
+    <th>Фамилия</th>
+    <td th:text="${user.lastName}"/>
+  </tr>
+  <th>Username</th>
+  <td th:text="${user.username}"/>
+  <th>Password</th>
+  <td th:text="${user.password}"/>
+  <tr>
+    <th>Role</th>
+    <td th:text="${user.roleToString()}"/>
+  </tr>
+</table>
+<a th:href="@{/admin}">Показать список</a>
+<a th:href="@{/logout}">Выйти</a>
+</body>
+</html>

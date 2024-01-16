@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/styles.css}">
+    <title>All Users</title>
+</head>
+<body>
+<div class="center">
+    <h2>Users</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="user : ${all}">
+            <tr>
+                <td th:text="${user.id}">ID</td>
+                <td th:text="${user.username}">Userame</td>
+                <td th:text="${user.name}">Name</td>
+                <td th:text="${user.surname}">Surname</td>
+                <td th:text="${user.email}">Email</td>
+                <td class="tg-action">
+                    <div>
+                        <a class="link-button" th:href="@{/updateUser(userID=${user.id})}">Update</a>
+                    </div>
+                    <div>
+                        <a class="link-button" th:href="@{/deleteUser(userID=${user.id})}">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<input type="button" value="create"
+       onclick="window.location.href = 'addNewUser'"/>
+<input type="button" value="logout"
+       onclick="window.location.href = 'logout'"/>
+</body>
+</html>
