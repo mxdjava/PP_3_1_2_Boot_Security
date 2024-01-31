@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>This page for add a new user</title>
+</head>
+<body>
+<form th:method="post" th:action="@{/admin/create}" th:object="${user}">
+    <label for="username"> Input username: </label>
+    <input type="text" id="username" name="username" th:field="*{username}"/>
+
+    <label for="secondname"> Input secondname: </label>
+    <input type="text" id="secondname" name="secondname" th:field="*{secondname}"/>
+
+    <label for="age"> Input  age: </label>
+    <input type="text" id="age" name="age" th:field="*{age}"/>
+
+    <label for="email"> Input email: </label>
+    <input type="text" id="email" name="email" th:field="*{email}"/>
+
+    <label for="password"> Input password: </label>
+    <input type="text" id="password" name="password" th:field="*{password}"/>
+    <br/>
+    <label>Set role for user:
+        <input type="checkbox" name="roles"
+               th:each="roles : ${role}"
+               th:value="${roles.getId()}"
+               th:text="${roles.getName().replace('ROLE_', '') + ' '}"
+               th:field="*{roles}"
+        />
+    </label>
+    <br/>
+    <input type="submit" value="Create">
+</form>
+<hr/>
+<hr/>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Log out</button>
+</form>
+</body>
+</html>
