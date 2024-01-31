@@ -18,16 +18,20 @@
     <th>Фамилия</th>
     <td th:text="${user.lastName}"/>
   </tr>
-  <th>Username</th>
-  <td th:text="${user.username}"/>
-  <th>Password</th>
-  <td th:text="${user.password}"/>
+  <tr>
+    <th>Username</th>
+    <td th:text="${user.username}"/>
+  </tr>
+  <tr>
+    <th>Password</th>
+    <td th:text="${user.password}"/>
+  </tr>
   <tr>
     <th>Role</th>
     <td th:text="${user.roleToString()}"/>
   </tr>
 </table>
-<a th:href="@{/admin}">Показать список</a>
+<a th:href="@{/templates/admin}">Показать список</a>
 <a th:href="@{/logout}">Выйти</a>
 </body>
 </html>

@@ -1,47 +1,62 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{/resources/styles.css}">
-    <title>All Users</title>
+    <title>List of all users.</title>
 </head>
 <body>
-<div class="center">
-    <h2>Users</h2>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Email</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="user : ${all}">
-            <tr>
-                <td th:text="${user.id}">ID</td>
-                <td th:text="${user.username}">Userame</td>
-                <td th:text="${user.name}">Name</td>
-                <td th:text="${user.surname}">Surname</td>
-                <td th:text="${user.email}">Email</td>
-                <td class="tg-action">
-                    <div>
-                        <a class="link-button" th:href="@{/updateUser(userID=${user.id})}">Update</a>
-                    </div>
-                    <div>
-                        <a class="link-button" th:href="@{/deleteUser(userID=${user.id})}">Delete</a>
-                    </div>
-                </td>
-            </tr>
-        </th:block>
-        </tbody>
-    </table>
-</div>
-<input type="button" value="create"
-       onclick="window.location.href = 'addNewUser'"/>
-<input type="button" value="logout"
-       onclick="window.location.href = 'logout'"/>
+<h1>Users</h1>
+<form th:action="@{/templates/style/create}" method="get">
+    <input class="btn btn-primary" type="submit" value="Create" />
+</form>
+
+<nav class="navbar fixed-top navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">
+        <span th:text="${currentUser.username}"></span>
+        <span>with role:</span>
+        <span th:each="role : ${currentUser.roles}" th:text="${role.role}"></span>
+    </a>
+</nav>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${usersList}">
+        <td th:text="${user.getUsername()}"></td>
+        <td th:text="${user.getName()}"></td>
+        <td th:text="${user.getSurname()}"></td>
+        <td th:text="${user.getEmail()}"></td>
+        <td>
+            <ul th:each="role:${user.getName()}">
+                <li th:text="${role.getRole().replace('ROLE_', '') + ' '}"></li>
+            </ul>
+        </td>
+        <td class="actions">
+            <a th:href="@{/templates/style/edit(id=${user.getId()})}" class="edit-link">
+                <input type="hidden" name="id" th:value="${user.getId()}" />
+                <input class="btn btn-primary" type="submit" value="Edit" />
+            </a>
+            <form th:method="post" th:action="@{/templates/style/delete(id=${user.getId()})}" class="delete-form">
+                <input type="hidden" name="id" th:value="${user.getId()}" />
+                <input class="btn btn-danger" type="submit" value="Delete" />
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</hr>
+</hr>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Log out</button>
+</form>
 </body>
 </html>

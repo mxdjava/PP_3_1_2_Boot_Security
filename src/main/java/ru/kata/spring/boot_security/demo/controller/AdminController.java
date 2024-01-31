@@ -1,71 +1,75 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
-import ru.kata.spring.boot_security.demo.service.UsersService;
+import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.util.List;
-
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-
-    private final UsersService userService;
+    private final UserService userService;
     private final RoleService roleService;
 
-    public AdminController(UsersService userService, RoleService roleService) {
+    @Autowired
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
 
-    @GetMapping(value = "")
-    public String printAllUsers(ModelMap model) {
-        List<User> users = userService.listUsers();
-        model.addAttribute("listUsers", users);
-        return "admin";
+    @GetMapping("/admin")
+    public String getAllUsers(Model model, Principal principal) {
+        String username = principal.getName();
+        User currentUser = userService.findUserByUsername(username);
+        model.addAttribute("usersList", userService.findAll());
+        model.addAttribute("currentUser", currentUser);
+
+        return "all-users";
     }
 
-    @GetMapping("/create_user")
-    public String createUser(ModelMap model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        model.addAttribute("roles", roleService.getAllRoles());
-        return "/admin/create_user";
+    @GetMapping("/create")
+    public String create(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("role", roleService.getAllUser());
+        return "create-user";
     }
 
-    @PostMapping
-    public String saveUser(@ModelAttribute("user") User user) {
-        userService.addUser(user);
+    @PostMapping("/create")
+    public String addUser(@ModelAttribute("userForm") User userForm) {
+        userService.save(userForm);
+
         return "redirect:/admin";
     }
 
-    @GetMapping("/delete_user")
-    public String deleteUser(@RequestParam("id") long id) {
-        userService.deleteUser(id);
+    @GetMapping("/edit")
+    public String edit(@RequestParam(value = "id", required = false) Long id, Model model) {
+        model.addAttribute("user", userService.getById(id));
+        model.addAttribute("role", roleService.getAllUser());
+
+        return "edit-user";
+    }
+
+    @PostMapping("/edit")
+    public String update(@ModelAttribute("userForm") User userForm) {
+        userService.update(userForm);
+
         return "redirect:/admin";
     }
 
-    @GetMapping("/edit_user")
-    public String editUser(@RequestParam("id") long id, ModelMap model) {
-        model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("roles", roleService.getAllRoles());
-        return "admin/edit_user";
-    }
+    @PostMapping("/delete")
+    public String delete(@RequestParam(value = "id") Long id) {
+        userService.deleteById(id);
 
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user,
-                         @RequestParam("id") long id) {
-        userService.editUser(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/info")
-    public String getUser(@RequestParam("id") long id, ModelMap model) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "admin/info";
-    }
 }

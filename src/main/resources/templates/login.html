@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+
+<h2>Autorisation Page!</h2>
+<form th:method="Post" th:action="@{/login}">
+
+  <input name="username" type="text" id="username" placeholder="Username" autofocus="autofocus"/>
+  <br>
+  <input name="password" type="password" id="password" placeholder="Password" autofocus="autofocus"/>
+  <br>
+  <br>
+  <input type="submit" value="Login"/>
+
+  <br>
+  <br>
+  <h4><a href="/admin/create-user">Registration</a></h4>
+  <br>
+  <br>
+</form>
+
+</body>
+</html>
