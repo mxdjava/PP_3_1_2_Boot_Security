@@ -26,7 +26,7 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/admin")
+    @GetMapping("")
     public String getAllUsers(Model model, Principal principal) {
         String username = principal.getName();
         User currentUser = userService.findUserByUsername(username);

@@ -23,7 +23,7 @@ public class UserController {
 
     }
 
-    @GetMapping(value = "/user")
+    @GetMapping("/user")
     public String show(ModelMap modelMap, Principal principal) {
         User user = userService.findUserByUsername(principal.getName());
         modelMap.addAttribute("user", user);
@@ -34,7 +34,7 @@ public class UserController {
     @GetMapping("/login")
     public String login(Model model, String logout) {
         if (logout != null) {
-            model.addAttribute("message", "Logged out successfully.");
+            model.addAttribute("message", "Logged out.");
         }
 
         return "login";

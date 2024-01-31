@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>List of all users.</title>
+    <title>This page contains all users info</title>
 </head>
 <body>
 <h1>Users</h1>
-<form th:action="@{/templates/style/create}" method="get">
+<form th:action="@{/admin/create}" method="get">
     <input class="btn btn-primary" type="submit" value="Create" />
 </form>
 
@@ -14,7 +14,7 @@
     <a class="navbar-brand" href="#">
         <span th:text="${currentUser.username}"></span>
         <span>with role:</span>
-        <span th:each="role : ${currentUser.roles}" th:text="${role.role}"></span>
+        <span th:each="role : ${currentUser.roles}" th:text="${role.name}"></span>
     </a>
 </nav>
 
@@ -22,8 +22,8 @@
     <thead>
     <tr>
         <th>Username</th>
-        <th>Name</th>
-        <th>Surname</th>
+        <th>Secondname</th>
+        <th>Age</th>
         <th>Email</th>
         <th>Role</th>
         <th>Actions</th>
@@ -32,20 +32,20 @@
     <tbody>
     <tr th:each="user : ${usersList}">
         <td th:text="${user.getUsername()}"></td>
-        <td th:text="${user.getName()}"></td>
-        <td th:text="${user.getSurname()}"></td>
+        <td th:text="${user.getSecondname()}"></td>
+        <td th:text="${user.getAge()}"></td>
         <td th:text="${user.getEmail()}"></td>
         <td>
-            <ul th:each="role:${user.getName()}">
-                <li th:text="${role.getRole().replace('ROLE_', '') + ' '}"></li>
+            <ul th:each="role:${user.getRoles()}">
+                <li th:text="${role.getName().replace('ROLE_', '') + ' '}"></li>
             </ul>
         </td>
         <td class="actions">
-            <a th:href="@{/templates/style/edit(id=${user.getId()})}" class="edit-link">
+            <a th:href="@{/admin/edit(id=${user.getId()})}" class="edit-link">
                 <input type="hidden" name="id" th:value="${user.getId()}" />
                 <input class="btn btn-primary" type="submit" value="Edit" />
             </a>
-            <form th:method="post" th:action="@{/templates/style/delete(id=${user.getId()})}" class="delete-form">
+            <form th:method="post" th:action="@{/admin/delete(id=${user.getId()})}" class="delete-form">
                 <input type="hidden" name="id" th:value="${user.getId()}" />
                 <input class="btn btn-danger" type="submit" value="Delete" />
             </form>

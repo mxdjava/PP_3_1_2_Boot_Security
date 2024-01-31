@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +19,6 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@Slf4j
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
@@ -67,13 +65,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(User updatedUser) {
-        User currentUser = userRepository.getById(updatedUser.getId());
-        currentUser.setUsername(updatedUser.getUsername());
-        currentUser.setName(updatedUser.getName());
-        currentUser.setSurname(updatedUser.getSurname());
-        currentUser.setEmail(updatedUser.getEmail());
-        currentUser.setRoles(updatedUser.getRoles());
-        userRepository.save(currentUser);
+        User existingUser = userRepository.getById(updatedUser.getId());
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setSecondname(updatedUser.getSecondname());
+        existingUser.setAge(updatedUser.getAge());
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setRoles(updatedUser.getRoles());
+        userRepository.save(existingUser);
     }
 
     @Override
@@ -83,7 +81,7 @@ public class UserServiceImpl implements UserService {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
         for (Role role : user.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }

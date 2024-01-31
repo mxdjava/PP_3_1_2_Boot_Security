@@ -2,30 +2,30 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add a new user</title>
+    <title>This page for add a new user</title>
 </head>
 <body>
-<form th:method="post" th:action="@{/templates/style/create}" th:object="${user}">
-    <label for="username"> Input username:  </label>
+<form th:method="post" th:action="@{/admin/create}" th:object="${user}">
+    <label for="username"> Input username: </label>
     <input type="text" id="username" name="username" th:field="*{username}"/>
 
-    <label for="name"> Input surname: </label>
-    <input type="text" id="name" name="name" th:field="*{name}"/>
+    <label for="secondname"> Input secondname: </label>
+    <input type="text" id="secondname" name="secondname" th:field="*{secondname}"/>
 
-    <label for="surname"> Input surname: </label>
-    <input type="text" id="surname" name="surname" th:field="*{surname}"/>
-
-    <label for="password"> Input password: </label>
-    <input type="text" id="password" name="password" th:field="*{password}"/>
+    <label for="age"> Input  age: </label>
+    <input type="text" id="age" name="age" th:field="*{age}"/>
 
     <label for="email"> Input email: </label>
     <input type="text" id="email" name="email" th:field="*{email}"/>
+
+    <label for="password"> Input password: </label>
+    <input type="text" id="password" name="password" th:field="*{password}"/>
     <br/>
-    <label>Set a role:
+    <label>Set role for user:
         <input type="checkbox" name="roles"
                th:each="roles : ${role}"
                th:value="${roles.getId()}"
-               th:text="${roles.getRole().replace('ROLE_', '') + ' '}"
+               th:text="${roles.getName().replace('ROLE_', '') + ' '}"
                th:field="*{roles}"
         />
     </label>
